@@ -1,0 +1,6 @@
+{ getUser {
+        name,
+        age,
+        id
+    }
+}

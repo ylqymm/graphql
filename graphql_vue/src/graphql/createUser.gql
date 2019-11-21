@@ -1,0 +1,9 @@
+mutation createUser($argsMutify:MutifyUser) {
+    createUser(argsMutify:$argsMutify){
+        name,
+        age,
+        status,
+        msg
+    }
+}
+

@@ -1,0 +1,8 @@
+mutation updateUser($argsMutify:MutifyUser) {
+    updateUser(argsMutify:$argsMutify){
+        name,
+        age,
+        status,
+        msg
+    }
+}
