@@ -5,9 +5,6 @@ var User = require('../models/user');
 var Post = require('../models/post');
 var Comment = require('../models/comment');
 
-// var tom = new User({name: 'Tom', age: 19});
-// var test1 = new Post({title: 'test', content: 'wakaka'});
-// var walala = new Comment({content: 'walala'});
 var resolvers = {
 
     Query: {
@@ -24,22 +21,6 @@ var resolvers = {
             return await detail.find({
                 "testId": args.id
             }).populate("_id").exec();
-            // await test.aggregate([{
-            //     $lookup: {
-            //       from: "detail",
-            //       localField: "_id",
-            //       foreignField: "testId",
-            //       as: "details"
-            //     }
-            //   },
-            // //   {
-            // //     $match: {
-            // //       "_id": args.id
-            // //     }
-            // //   },
-            // ], (data)=>{
-            //     console.log(data);
-            // })
         },
         getDetail() {
             return detail.find();

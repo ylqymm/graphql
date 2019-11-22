@@ -62,10 +62,16 @@
 </template>
 
 <script>
-import getDataGql from "../../graphql/getUser.gql";
-import createDataGql from "../../graphql/createUser.gql";
-import deleteDataGql from "../../graphql/deleteUser.gql";
-import updateDataGql from '../../graphql/updateUser.gql';
+// import getDataGql from "../../graphql/getUser.gql";
+// import createDataGql from "../../graphql/createUser.gql";
+// import deleteDataGql from "../../graphql/deleteUser.gql";
+// import updateDataGql from '../../graphql/updateUser.gql';
+import { getDataGql } from "../../graphql/queryGraphql";
+import {
+  createDataGql,
+  updateDataGql,
+  deleteDataGql
+} from "../../graphql/mutationGraphql";
 export default {
   data() {
     return {
@@ -99,7 +105,7 @@ export default {
       editedIndex: -1,
       desserts: [],
       delShow: false,
-      addShow:false
+      addShow: false
     };
   },
   // apollo: {
@@ -135,13 +141,13 @@ export default {
     },
     handleAdd() {
       this.dialog = true;
-      this.addShow=true;
-      this.delShow=false;
+      this.addShow = true;
+      this.delShow = false;
     },
     handleEdit(item) {
       this.dialog = true;
-      this.addShow=true;
-      this.delShow=false;
+      this.addShow = true;
+      this.delShow = false;
       this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
     },
@@ -183,8 +189,12 @@ export default {
             if (createUser.status === "200") {
               this.snackbar = true;
               this.titleTip = createUser.msg;
+              this.color = "info";
               this.desserts.push(createUser);
-              // console.log(this.desserts);
+            } else {
+              this.snackbar = true;
+              this.titleTip = createUser.msg;
+              this.color = "error";
             }
           }
         });
@@ -194,7 +204,7 @@ export default {
     handleDel(item) {
       this.dialog = true;
       this.delShow = true;
-      this.addShow=false;
+      this.addShow = false;
       this.editedItem = Object.assign({}, item);
     },
     handleDelSave() {
@@ -203,9 +213,19 @@ export default {
         variables: {
           id: this.editedItem.id
         },
-        update: (store, { data: { deleteProduct } }) => {
-          var index = this.desserts.indexOf(this.editedItem);
-          this.desserts.splice(index, 1);
+        update: (store, { data: { deleteUser } }) => {
+          console.log(deleteUser);
+          if (deleteUser.status === "200") {
+            this.snackbar = true;
+            this.titleTip = deleteUser.msg;
+            this.color = "info";
+            var index = this.desserts.indexOf(this.editedItem);
+            this.desserts.splice(index, 1);
+          } else {
+            this.snackbar = true;
+            this.titleTip = deleteUser.msg;
+            this.color = "error";
+          }
           this.close();
         }
       });
